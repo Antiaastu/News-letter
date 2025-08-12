@@ -1,6 +1,6 @@
 import React from 'react'
 import {Routes,Route} from 'react-router-dom'
-import Landing from '../pages/user/Landing'
+import Landing from '../pages/user/Landing/Landing'
 import Login from '../pages/auth/Login/Login'
 import SignUp from '../pages/auth/Signup/SignUp'
 

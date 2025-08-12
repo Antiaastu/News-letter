@@ -4,6 +4,9 @@ import Login_Button from "./Login_Button";
 import Divider from "../../../components/Divider";
 import Google_Button from "../../../components/Google_Button";
 import Register_Link from "./Register_Link";
+import Email_Field from "../../../components/Email_Field";
+import Password_Field from "../../../components/Password_Field";
+import Forget_Password from "./Forget_Password";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,7 +19,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-800">
+    <div className="flex flex-col items-center justify-center dark:bg-gray-900 pt-6 flex-grow mb-10">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4 px-6 py-6 w-80 bg-[#f5f1f1] dark:bg-gray-700 shadow-2xl rounded-xl"
@@ -26,38 +29,23 @@ const Login = () => {
         </h1>
 
         {/* Email */}
-        <div className="flex flex-col">
-          <label className="text-sm font-bold text-gray-600 dark:text-gray-300">
-            Email
-          </label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="p-2 mt-1 rounded-md bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-bold placeholder:text-sm"
-          />
-        </div>
+        <Email_Field
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
         {/* Password */}
-        <div className="flex flex-col">
-          <label className="text-sm font-bold text-gray-600 dark:text-gray-300">
-            Password
-          </label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="p-2 mt-1 rounded-md bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-bold placeholder:text-sm"
-          />
-          <a
-            href="#"
-            className="text-xs text-blue-500 hover:underline mt-1 self-end"
-          >
-            Forgot password?
-          </a>
-        </div>
+        <Password_Field
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Forget_Password />
 
         <Login_Button />
         <Divider />
