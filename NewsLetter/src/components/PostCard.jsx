@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const PostCard = ({ title, excerpt, likes, index }) => {
   return (
     <motion.div
-      className="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between p-5 sm:p-6 hover:scale-[1.02] transform transition-transform duration-300"
+      className="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between p-5 sm:p-6 hover:scale-[1.02] transform"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.15 }}
