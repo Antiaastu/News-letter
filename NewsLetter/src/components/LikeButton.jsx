@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { FaHeart } from "react-icons/fa";
+import { usePosts } from "../context/PostsContext";
 
-const LikeButton = ({ initialLikes }) => {
-  const [liked, setLiked] = useState(false);
-
-  const handleClick = () => {
-    setLiked(!liked);
-  };
+const LikeButton = ({ postId }) => {
+  const { posts, likedPosts, toggleLike } = usePosts();
+  const post = posts.find((p) => p.id === postId);
+  const liked = likedPosts[postId] || false;
 
   return (
     <button
-      onClick={handleClick}
+      onClick={() => toggleLike(postId)}
       className="flex items-center text-sm sm:text-base text-gray-500 dark:text-gray-400 hover:opacity-80 transition"
     >
       <FaHeart
@@ -18,7 +17,7 @@ const LikeButton = ({ initialLikes }) => {
           liked ? "text-red-500" : "text-gray-400"
         }`}
       />
-      {initialLikes + (liked ? 1 : 0)} Likes
+      {post.likes} Likes
     </button>
   );
 };

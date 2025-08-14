@@ -6,13 +6,6 @@ import MobileMenu from "./MobileMenu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "";
-  //   }
-  // }, [isOpen]);
   return (
     <nav className="sticky top-0 shadow-md py-4 px-6 flex justify-between items-center bg-white dark:bg-gray-900">
       <Link to="/" className="text-xl font-bold text-blue-600">
@@ -21,6 +14,9 @@ const Navbar = () => {
       <div className="hidden md:flex items-center space-x-4 md:text-base">
         <Link to="/" className="hover:text-blue-600">
           Home
+        </Link>
+        <Link to="/posts" className="hover:text-blue-600">
+          posts
         </Link>
         <Link to="/login" className="hover:text-blue-600">
           Login

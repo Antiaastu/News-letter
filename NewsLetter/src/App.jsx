@@ -3,20 +3,24 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 import { ThemeProvider } from "./context/ThemeContext";
+import { PostsProvider } from "./context/PostsContext"; // ✅ Import your provider
+
 // import Footer from "./components/Footer";
 
 const App = () => {
   return (
     <ThemeProvider>
-      <Router>
-        <div className="min-h-screen flex flex-col dark:bg-gray-900 text-gray-900 dark:text-white transition-colors">
-          <Navbar />
-          <div className="flex flex-col flex-grow">
-            <AppRoutes />
+      <PostsProvider> {/* ✅ Wrap with PostsProvider */}
+        <Router>
+          <div className="min-h-screen flex flex-col dark:bg-gray-900 text-gray-900 dark:text-white transition-colors">
+            <Navbar />
+            <div className="flex flex-col flex-grow">
+              <AppRoutes />
+            </div>
+            {/* <Footer /> */}
           </div>
-          {/* <Footer /> */}
-        </div>
-      </Router>
+        </Router>
+      </PostsProvider>
     </ThemeProvider>
   );
 };
