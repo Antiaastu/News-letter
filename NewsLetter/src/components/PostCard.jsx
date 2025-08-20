@@ -2,8 +2,10 @@ import React from "react";
 import { usePosts } from "../context/PostsContext";
 import { motion } from "framer-motion";
 import LikeButton from "./LikeButton";
+import { useNavigate } from "react-router-dom";
 
 const PostCard = ({ post, index }) => {
+  const navigate = useNavigate();
   return (
     <motion.div
       className="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between p-5 sm:p-6 hover:scale-[1.02] transform"
@@ -23,7 +25,10 @@ const PostCard = ({ post, index }) => {
 
       <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-200 dark:border-gray-700">
         <LikeButton postId={post.id} />
-        <button className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs sm:text-sm rounded-full shadow-md transition-colors duration-200">
+        <button
+          onClick={() => navigate(`/posts/${post.id}`)}
+          className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs sm:text-sm rounded-full shadow-md transition-colors duration-200"
+        >
           View Details
         </button>
       </div>

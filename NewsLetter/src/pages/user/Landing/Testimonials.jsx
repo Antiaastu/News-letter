@@ -3,7 +3,7 @@ import testimonials from "../../../Testimonials";
 
 const Testimonials = () => {
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 sm:py-16">
+    <div className="bg-gradient-to-b from-gray-100 to-white dark:from-gray-900 dark:to-gray-800 py-12 sm:py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-gray-800 dark:text-gray-100 mb-10 sm:mb-12">
           What People Are Saying

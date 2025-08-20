@@ -9,7 +9,7 @@ const RecentPosts = () => {
   const recentPosts = posts.slice(0, 3);
 
   return (
-    <section className="py-12 px-4 sm:px-6 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <section className="py-12 px-4 sm:px-6 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-8 text-center">
           Recent Posts

@@ -7,7 +7,7 @@ import MobileMenu from "./MobileMenu";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <nav className="sticky top-0 shadow-md py-4 px-6 flex justify-between items-center bg-white dark:bg-gray-900">
+    <nav className="sticky top-0 z-50 shadow-md py-4 px-6 flex justify-between items-center bg-white dark:bg-gray-900 mb-6">
       <Link to="/" className="text-xl font-bold text-blue-600">
         📰TechPulse
       </Link>

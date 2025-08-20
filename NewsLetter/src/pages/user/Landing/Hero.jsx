@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
       <p className="text-4xl sm:text-5xl text-center mt-12 dark:text-white">📰</p>
       <h1 className="text-2xl sm:text-3xl text-center font-semibold py-4 sm:py-6 dark:text-white">
         The Daily Bite by TechPulse
