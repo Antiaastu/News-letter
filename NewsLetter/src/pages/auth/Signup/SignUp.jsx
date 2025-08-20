@@ -12,34 +12,42 @@ import { toast } from "react-hot-toast";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState(""); 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (password !== confirmPassword) {
       toast.error("Passwords do not match!");
       return;
     }
-    setLoading(true)
+    setLoading(true);
 
-    try{
-      const data = await register(name, email, password)
+    try {
+      const data = await register(name, email, password);
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
       toast.success("Account created successfully! 🎉");
       navigate("/posts");
-    }
-    catch(err){
-      toast.error(err.message || "Something went wrong!");
-    }
-    finally{
-      setLoading(false)
-    }
+    } catch (err) {
+      let errorMessage = "Something went wrong!";
 
+      if (typeof err.error === "string") {
+        errorMessage = err.error;
+      } else if (err.error && typeof err.error === "object") {
+        const firstKey = Object.keys(err.error)[0];
+        errorMessage = err.error[firstKey];
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,8 +95,8 @@ const SignUp = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
-        <Register_Button loading={loading}/>
-    
+        <Register_Button loading={loading} />
+
         <Divider />
         <Google_Button />
         <Login_Link />

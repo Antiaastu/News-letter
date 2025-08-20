@@ -30,7 +30,6 @@ export const register = async (name, email, password) => {
     if (!res.ok){
         throw data
     }
-    
 
     return data
 }
