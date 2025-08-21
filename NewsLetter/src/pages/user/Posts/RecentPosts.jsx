@@ -4,9 +4,20 @@ import { usePosts } from "../../../context/PostsContext";
 import { useNavigate } from "react-router-dom";
 
 const RecentPosts = () => {
-  const navigate = useNavigate();
-  const { posts } = usePosts();
-  const recentPosts = posts.slice(0, 3);
+  const navigate = useNavigate()
+  const { posts, loading } = usePosts()
+
+  if (loading) {
+    return (
+    <div className="flex items-center justify-center h-64">
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+    </div>
+    )
+  }
+  
+  const recentPosts = posts
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, 3)
 
   return (
     <section className="py-12 px-4 sm:px-6 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
@@ -31,7 +42,7 @@ const RecentPosts = () => {
         </div>
       </div>
     </section>
-  );
+  )
 };
 
 export default RecentPosts;

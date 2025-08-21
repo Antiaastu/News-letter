@@ -64,7 +64,7 @@ const PostDetails = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-5 sm:p-8 mt-6 sm:mt-10">
+    <div className="max-w-xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-5 sm:p-8 mt-6 sm:mt-10">
       <PostHeader post={post} commentCount={allComments.length} />
       <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">
         Comments

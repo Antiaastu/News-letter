@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import UseDarkMode from "../hooks/UseDarkMode";
 import { FaBars, FaTimes } from "react-icons/fa"; // Google icon
 import MobileMenu from "./MobileMenu";
+import Logout from "../pages/auth/Logout/Logout";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const user = JSON.parse(localStorage.getItem("user"))
   return (
     <nav className="sticky top-0 z-50 shadow-md py-4 px-6 flex justify-between items-center bg-white dark:bg-gray-900 mb-6">
       <Link to="/" className="text-xl font-bold text-blue-600">
@@ -18,12 +20,17 @@ const Navbar = () => {
         <Link to="/posts" className="hover:text-blue-600">
           posts
         </Link>
-        <Link to="/login" className="hover:text-blue-600">
-          Login
-        </Link>
-        <Link to="/register" className="hover:text-blue-600">
-          Register
-        </Link>
+        {!user && (
+          <>
+            <Link to="/login" className="hover:text-blue-600">
+              Login
+            </Link>
+            <Link to="/register" className="hover:text-blue-600">
+              Register
+            </Link>
+          </>
+        )}
+        {user && <Logout />}
         <UseDarkMode />
         {/* 
         <Link to="/profile">Profile</Link> */}

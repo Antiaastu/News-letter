@@ -1,76 +1,120 @@
-import React, {  createContext,useContext, useEffect,useRef,useState,} from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { getAllPosts, likePost, unlikePost } from "../services/postServices";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const PostsContext = createContext();
 
 export const PostsProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState({});
-  const didRun = useRef(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  // const didRun = useRef(false);
+
   useEffect(() => {
-    if (didRun.current) return;
-    didRun.current = true;
-    const initialPosts = [
-      {
-        id: 1,
-        title: "Post Title 1",
-        excerpt: "This is a short excerpt of the first post content...",
-        likes: 123,
-      },
-      {
-        id: 2,
-        title: "Post Title 2",
-        excerpt: "This is a short excerpt of the second post content...",
-        likes: 87,
-      },
-      {
-        id: 3,
-        title: "Post Title 3",
-        excerpt: "This is a short excerpt of the third post content...",
-        likes: 201,
-      },
-      {
-        id: 4,
-        title: "Post Title 4",
-        excerpt: "Another excerpt for testing purposes...",
-        likes: 56,
-      },
-      {
-        id: 5,
-        title: "Post Title 5",
-        excerpt: "More newsletter sample content...",
-        likes: 99,
-      },
-      {
-        id: 6,
-        title: "Post Title 6",
-        excerpt: "Extra post to fill up space...",
-        likes: 77,
-      },
-    ];
-    setPosts(initialPosts);
+    // if (didRun.current) return;
+    // didRun.current = true;
+    const loadPosts = async () => {
+      try {
+        const data = await getAllPosts();
+        setPosts(data);
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user && user.token) {
+          const likedMap = {};
+          data.forEach((post) => {
+            const isLiked = post.likes.some((like) => like.user_id === user.id);
+            likedMap[post.id] = isLiked;
+          });
+          setLikedPosts(likedMap);
+        } else {
+          setLikedPosts({});
+        }
+      } catch (err) {
+        toast.error(err.message || "Failed to load posts");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPosts();
   }, []);
 
-  const toggleLike = (postId) => {
-    setPosts((prevPosts) => {
-      return prevPosts.map((p) => {
-        if (p.id === postId) {
-          const isLiked = !likedPosts[postId];
-          // Update likes count
-          return { ...p, likes: p.likes + (isLiked ? 1 : -1) };
-        }
-        return p;
-      });
-    });
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      setLikedPosts({});
+      return;
+    }
 
-    // Update liked state separately
-    setLikedPosts((prev) => ({
-      ...prev,
-      [postId]: !prev[postId],
-    }));
+    const likedMap = {};
+    posts.forEach((post) => {
+      const isLiked = post.likes.some((like) => like.user_id === user.id);
+      likedMap[post.id] = isLiked;
+    });
+    setLikedPosts(likedMap);
+  }, [posts, localStorage.getItem("user")]);
+
+  const toggleLike = async (postId) => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!token || !user) {
+      toast.error("You need to be logged in to like posts");
+      navigate("/login");
+      return;
+    }
+
+    const isLiked = likedPosts[postId];
+
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              likes: isLiked
+                ? post.likes.filter((like) => like.user_id !== user.id)
+                : [...post.likes, { user_id: user.id, post_id: postId }],
+            }
+          : post
+      )
+    );
+    setLikedPosts((prev) => ({ ...prev, [postId]: !isLiked }));
+
+    try {
+      if (isLiked) {
+        await unlikePost(postId, token);
+      } else {
+        await likePost(postId, token);
+      }
+    } catch (err) {
+      setPosts((prev) =>
+        prev.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                likes: isLiked
+                  ? post.likes.filter((like) => like.user_id !== user.id)
+                  : [...post.likes, { user_id: user.id, post_id: postId }],
+              }
+            : post
+        )
+      );
+
+      setLikedPosts((prev) => ({
+        ...prev,
+        [postId]: !isLiked,
+      }));
+      toast.error(err.message || "Failed to toggle like");
+    }
   };
 
   return (
-    <PostsContext.Provider value={{ posts, likedPosts, toggleLike }}>
+    <PostsContext.Provider value={{ posts, likedPosts, toggleLike, loading }}>
       {children}
     </PostsContext.Provider>
   );
