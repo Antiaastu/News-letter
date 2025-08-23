@@ -56,3 +56,64 @@ export const unlikePost = async (postId, token) => {
     }                   
     return data
 }
+
+export const addComment = async (postId, body, token) => {
+    const res = await fetch(`${API_BASE}/posts/${postId}/comments`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },  
+        body: JSON.stringify({body}),   
+    })
+
+    const data = await res.json()
+    console.log(data)
+    if (!res.ok){
+        throw data
+    }
+    return data
+}
+
+export const updateComment = async (commentId, body, token) => {
+    const res = await fetch(`${API_BASE}/comments/${commentId}`,{
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },  
+        body: JSON.stringify({body}),   
+    })
+    const data = await res.json()
+    console.log(data)
+    if (!res.ok){
+        throw data
+    }
+    return data
+}
+
+export const deleteComment = async (commentId, token) => {
+  const res = await fetch(`${API_BASE}/comments/${commentId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  })
+
+  let data = null;
+
+  if (res.status !== 204) {
+    data = await res.json();
+  }
+
+  if (!res.ok) {
+    throw data || { message: "Failed to delete comment" };
+  }
+
+  return data;
+};
+
+
+
+

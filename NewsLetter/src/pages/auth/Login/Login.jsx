@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Login_Button from "./Login_Button";
 import Divider from "../../../components/Divider";
-import Google_Button from "../../../components/Google_Button";
+import Google_Button from "../../../components/Forms/Google_Button";
 import Register_Link from "./Register_Link";
-import Email_Field from "../../../components/Email_Field";
-import Password_Field from "../../../components/Password_Field";
+import Email_Field from "../../../components/Forms/Email_Field";
+import Password_Field from "../../../components/Forms/Password_Field";
 import Forget_Password from "./Forget_Password";
 import { login } from "../../../services/authServices";
 

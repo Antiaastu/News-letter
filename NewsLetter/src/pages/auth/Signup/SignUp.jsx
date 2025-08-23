@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Register_Button from "./Register_Button";
-import Divider from "../../../components/Divider";
-import Google_Button from "../../../components/Google_Button";
-import Login_Link from "./Login_Link";
-import Email_Field from "../../../components/Email_Field";
-import Password_Field from "../../../components/Password_Field";
-import { register } from "../../../services/authServices";
-import Name_Field from "./Name_Field";
-import { toast } from "react-hot-toast";
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import Register_Button from "./Register_Button"
+import Divider from "../../../components/Divider"
+import Google_Button from "../../../components/Forms/Google_Button"
+import Login_Link from "./Login_Link"
+import Email_Field from "../../../components/Forms/Email_Field"
+import Password_Field from "../../../components/Forms/Password_Field"
+import { register } from "../../../services/authServices"
+import Name_Field from "./Name_Field"
+import { toast } from "react-hot-toast"
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +63,7 @@ const SignUp = () => {
         <Name_Field
           label="Name"
           type="text"
-          placeholder="Enter your name"
+          placeholder="Enter your full name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

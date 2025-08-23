@@ -1,6 +1,6 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc"; // Google icon
-import { handleGoogleCallback, loginWithGoogle } from "../services/authServices";
+import { handleGoogleCallback, loginWithGoogle } from "../../services/authServices";
 import { useNavigate } from "react-router-dom";
 
 const Google_Button = () => {

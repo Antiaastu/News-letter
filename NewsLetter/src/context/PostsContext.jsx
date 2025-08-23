@@ -114,7 +114,7 @@ export const PostsProvider = ({ children }) => {
   };
 
   return (
-    <PostsContext.Provider value={{ posts, likedPosts, toggleLike, loading }}>
+    <PostsContext.Provider value={{ posts, setPosts, likedPosts, toggleLike, loading }}>
       {children}
     </PostsContext.Provider>
   );

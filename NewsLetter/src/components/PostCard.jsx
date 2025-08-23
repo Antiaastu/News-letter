@@ -11,7 +11,7 @@ const PostCard = ({ post, index }) => {
   const thumbnail =
     post.image && post.image.trim() !== ""
       ? post.image
-      : `https://picsum.photos/id/${post.id || index}/200/200`
+      : `https://picsum.photos/id/${post.id || index}/200/200`;
 
   return (
     <motion.div
@@ -48,12 +48,13 @@ const PostCard = ({ post, index }) => {
         <LikeButton postId={post.id} />
         <span className="flex items-center space-x-1">
           <FaRegCommentDots className="w-3 h-3" />
-          <span>{post.comments?.length || "0"}</span>
+          <span onClick={() => navigate(`/posts/${post.id}`)}>
+            {post.comments?.length || "0"}
+          </span>
         </span>
       </div>
       {/* Divider */}
       <div className="border-t border-gray-400 dark:border-gray-700 mt-6"></div>
-      
     </motion.div>
   );
 };

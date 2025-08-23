@@ -1,82 +1,68 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { usePosts } from "../../../../context/PostsContext";
-import PostHeader from "./PostHeader";
-import PostComments from "./PostComments";
-import CommentForm from "./CommentForm";
+import React, { useState } from "react"
+import { useParams } from "react-router-dom"
+import { usePosts } from "../../../../context/PostsContext"
+import PostHeader from "./PostHeader"
+import PostComments from "./PostComments"
+import CommentForm from "./CommentForm"
+import { useAddComment } from "../../../../hooks/comments/useAddComments"
+import { useUpdateComment } from "../../../../hooks/comments/useUpdateComment"
+import { useDeleteComment } from "../../../../hooks/comments/useDeleteComment"
 
-const COMMENTS_PER_PAGE = 2;
+const COMMENTS_PER_PAGE = 3
 
 const PostDetails = () => {
-  const { id } = useParams();
-  const { posts } = usePosts();
-  const post = posts.find((p) => String(p.id) === String(id));
-  const allComments = post?.comments || [
-    {
-      id: 1,
-      author: "Sophia Clark",
-      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      date: "2 days ago",
-      text:
-        "This is a great overview of how AI is changing software development. I'm particularly excited about the potential for AI to help with debugging.",
-    },
-    {
-      id: 2,
-      author: "Ethan Miller",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-      date: "1 day ago",
-      text:
-        "I agree, the automation of repetitive tasks is a game-changer. It frees up developers to focus on more creative and strategic aspects of their work.",
-    },
-    {
-      id: 3,
-      author: "Liam Smith",
-      avatar: "https://randomuser.me/api/portraits/men/45.jpg",
-      date: "1 day ago",
-      text: "Great article! Looking forward to seeing how AI evolves in this space.",
-    },
-    {
-      id: 4,
-      author: "Olivia Brown",
-      avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-      date: "12 hours ago",
-      text: "Very insightful. Thanks for sharing!",
-    },
-    {
-      id: 5,
-      author: "Olivia Brown",
-      avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-      date: "7 hours ago",
-      text: "Very insightful. Thanks for sharing!",
-    },
-  ];
+  const { id } = useParams()
+  const { posts, setPosts } = usePosts()
+  const post = posts.find((p) => String(p.id) === String(id))
 
   const [visibleCount, setVisibleCount] = useState(COMMENTS_PER_PAGE);
-  const visibleComments = allComments.slice(0, visibleCount);
   const [comment, setComment] = useState("");
 
-  if (!post) {
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+
+  const visibleComments =
+    post?.comments?.slice(0, visibleCount).map((c) => ({
+      id: c.id,
+      user_id: c.user_id,
+      author: c.user?.name || "Unknown",
+      avatar: c.user?.profile_picture || `https://ui-avatars.com/api/?name=${c.user?.name || "U"}`,
+      date: new Date(c.created_at).toLocaleString(),
+      text: c.body,
+    })) || [];
+  const { addNewComment } = useAddComment(post, setPosts, token);
+  const { updateExistingComment } = useUpdateComment(post, setPosts, token);
+  const { deleteExistingComment } = useDeleteComment(post, setPosts, token);
+  
+
+  if(!post){
     return (
-      <div className="flex justify-center items-center h-96 text-gray-500">
-        Post not found.
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="max-w-xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-5 sm:p-8 mt-6 sm:mt-10">
-      <PostHeader post={post} commentCount={allComments.length} />
-      <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">
+    <div className="max-w-3xl mx-auto bg-gray-100 dark:bg-gray-900 p-5 sm:px-8 ">
+      <PostHeader post={post} commentCount={post.comments.length} />
+      <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white ">
         Comments
       </h2>
       <PostComments
         comments={visibleComments}
-        canSeeMore={visibleCount < allComments.length}
+        currentUserId={currentUser?.id}
+        canSeeMore={visibleCount < post.comments.length}
         onSeeMore={() => setVisibleCount((c) => c + COMMENTS_PER_PAGE)}
+        onUpdate={updateExistingComment}
+        onDelete={deleteExistingComment}
       />
-      <CommentForm comment={comment} setComment={setComment} />
+      <CommentForm
+        comment={comment} 
+        setComment={setComment} 
+        onSubmit={() => addNewComment(comment, setComment)} 
+       />
     </div>
   );
 };
-
 export default PostDetails;

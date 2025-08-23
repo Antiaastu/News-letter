@@ -1,7 +1,7 @@
 import React from "react";
 
-const CommentForm = ({ comment, setComment }) => (
-  <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+const CommentForm = ({ comment, setComment, onSubmit }) => (
+  <div className="border-t border-gray-200 dark:border-gray-700">
     <h3 className="text-sm sm:text-md font-semibold text-gray-900 dark:text-white mb-2">
       Add a comment
     </h3>
@@ -14,6 +14,7 @@ const CommentForm = ({ comment, setComment }) => (
         onChange={(e) => setComment(e.target.value)}
       />
       <button
+        onClick={onSubmit}
         className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-5 py-2 rounded-lg font-semibold transition text-sm sm:text-base"
         disabled={!comment.trim()}
       >

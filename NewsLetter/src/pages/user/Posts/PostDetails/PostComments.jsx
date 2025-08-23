@@ -1,10 +1,16 @@
-import React from "react";
-import CommentItem from "./CommentItem";
+import React from "react"
+import CommentItem from "./CommentItem"
 
-const PostComments = ({ comments, onSeeMore, canSeeMore }) => (
+const PostComments = ({ comments, onSeeMore, canSeeMore, currentUserId, onUpdate, onDelete }) => (
   <div className="space-y-4 sm:space-y-6 mb-6">
     {comments.map((c) => (
-      <CommentItem key={c.id} comment={c} />
+      <CommentItem
+        key={c.id}
+        comment={c}
+        currentUserId={currentUserId}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      />
     ))}
     {canSeeMore && (
       <button
@@ -15,6 +21,6 @@ const PostComments = ({ comments, onSeeMore, canSeeMore }) => (
       </button>
     )}
   </div>
-);
+)
 
-export default PostComments;
+export default PostComments
